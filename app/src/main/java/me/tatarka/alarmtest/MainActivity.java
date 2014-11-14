@@ -79,6 +79,10 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Void doInBackground(Void... params) {
             for (int i = 1; i <= MAX_ALARMS; i++) {
+                if (isCancelled()) {
+                    return null; // Fine! stop setting alarms when you kill the app.
+                }
+                
                 Intent intent = new Intent(MainActivity.this, MyReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, i, intent, 0);
                 am.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + ALARM_DELAY, pendingIntent);
